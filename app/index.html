@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" ng-app="myApp">
+    <head>
+        <meta charset="utf-8">
+
+        <title>ElasticSearch Test</title>
+
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+        <link rel="stylesheet" href="css/app.css">
+
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-resource/angular-resource.js"></script>
+
+        <script src="js/app.js"></script>
+        <script src="js/services.js"></script>
+        <script src="js/controllers.js"></script>
+        <script src="js/config.js"></script>
+    </head>
+
+    <body>
+        <div class="container-fluid">
+            <div class="row" ng-controller="SearchController">
+                <div class="col-md-5">
+                    <!--Sidebar content-->
+                        <p>
+                            <strong>Query type</strong><br>
+
+                            <select ng-model="queryType">
+                                <option value="raw">Raw query</option>
+                                <option value="fieldvalue">Field / value</option>
+                            </select>
+                        </p>
+
+                        <!-- Show field/value combo when the type is set to 'fieldvalue' -->
+                        <div ng-if="queryType == 'fieldvalue'">
+                            <div ng-repeat="term in termList">
+                                <p>
+                                   Field: <input type="text" ng-model="term.field" ng-change="generateTerms(true);" required/>
+                                   Value: <input type="text" ng-model="term.value" ng-change="generateTerms(true);" required/>
+
+                                   <input type="button" value="Remove term" ng-click="removeTerm($index);"/>
+                                </p>
+                            </div>
+
+                            <input type="button" value="Add term" ng-click="addTerm();"/>
+
+                            <p>
+                                <strong>Nested path</strong><br>
+                                <input type="text" ng-model="nestedPath" ng-change="generateTerms(true);"/></textarea>
+                            </p>
+
+                            <p>
+                                <strong>Terms</strong><br>
+                                <pre>{{ encodedTerms | json }}</pre>
+                            </p>
+
+                            <p>
+                                <strong>Generated query</strong><br>
+                                <pre>{{ generatedQuery | json }}</pre>
+                            </p>
+                        </div>
+                        <!-- End of field/value type -->
+
+                        <!-- Show raw query textbox when the type is set to 'raw' -->
+                        <div ng-if="queryType == 'raw'">
+                            <strong>JSON request</strong>
+
+                            <textarea rows="25" cols="70" ng-model="rawQuery" ng-change="query(rawQuery)" required></textarea>
+
+                            <strong ng-if="queryValid == false"><p>Invalid JSON</p></strong>
+                        </div>
+                        <!-- End of raw type -->
+                </div>
+
+                <div class="col-md-7">
+                    <!--Body content-->
+
+                    <strong>ElasticSearch Response</strong>
+                    <pre>{{ queryResult | json }}</pre>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

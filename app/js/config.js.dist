@@ -1,0 +1,7 @@
+
+var config = angular.module('myApp.config', []);
+
+config.value('es_config', {
+    baseUrl:     '<elasticsearch url here>',
+    searchIndex: '<search index here>'
+});
