@@ -1,4 +1,5 @@
-elasticsearch-test
-==================
+ElasticSearch test with AngularJS
+---
 
-AngularJS test for ElasticSearch
+Installation:
+Rename the app/js/config.js.dist to config.js and set the correct values for your usage.
