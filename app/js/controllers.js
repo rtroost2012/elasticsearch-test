@@ -17,11 +17,16 @@ controllers.controller('SearchController', ['$scope', 'ElasticSearch',
         ];
 
         $scope.isValidJson = function(str) {
+            if (typeof str == "object") {
+                str = JSON.stringify(str);
+            }
+
             try {
                 JSON.parse(str);
             } catch (e) {
                 return false;
             }
+
             return true;
         }
 
@@ -73,8 +78,6 @@ controllers.controller('SearchController', ['$scope', 'ElasticSearch',
         }
 
         $scope.query = function (queryData) {
-            console.log(queryData);
-
             $scope.queryValid = $scope.isValidJson(queryData);
 
             if ($scope.queryValid) {
